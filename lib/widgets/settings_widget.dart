@@ -47,7 +47,11 @@ class SettingWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Icon(Icons.arrow_forward_ios,color: Color(0xff1BAECB),)
+            // InkWell(
+            //   onTap: () {},
+            //   child: Icon(
+            //     Icons.arrow_forward_ios,color: Color(0xff1BAECB),),
+            // )
           ],
         ),
         SizedBox(

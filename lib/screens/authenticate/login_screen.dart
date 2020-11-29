@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:payo/shared/loading.dart';
 import 'package:payo/widgets/button.dart';
 import 'package:payo/services/auth.dart';
 import 'package:payo/widgets/platform_alert.dialog.dart';
+
+import 'forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = 'login-screen';
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     print(LoginScreen.routeName);
-    return loading ? Loading() : Scaffold(
+    return loading ? CircularProgressIndicator() : Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -181,7 +182,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ForgotPassword()),
+                      );
+                      // Navigator.of(context).pushNamed(ForgotPassword.routeName);
+                    },
                     child: Text(
                       'Forgot password',
                       style: TextStyle(

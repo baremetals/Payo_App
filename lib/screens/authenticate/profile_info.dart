@@ -7,7 +7,6 @@ import 'package:payo/screens/home_screen.dart';
 import 'package:payo/services/auth.dart';
 import 'package:payo/services/database.dart';
 import 'package:payo/widgets/button.dart';
-import 'package:payo/shared/loading.dart';
 import 'package:payo/widgets/platform_alert.dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -327,7 +326,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ).show(context);
                               }
                             } else {
-                              return Loading();
+                              return CircularProgressIndicator();
                             }
                           },
                           borderRadius: 10,

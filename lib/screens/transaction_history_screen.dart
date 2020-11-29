@@ -29,15 +29,19 @@ Widget buildContents(BuildContext context) {
         final transfer = snapshot.data;
         //print(transfer);
         List<TransactionWidget> testWidgets = [];
+        // final dateTime =
+        // transfer.map((transfer) => (transfer.date).toDate()).toString();
         final test =
         transfer.map((transfer) {
           final receiverName = transfer.receiverName;
           final status = transfer.status;
           final amountSent = transfer.amountSent;
+          final dateSent = transfer.date.toDate().toString().split(' ').elementAt(0);
           final testWidget = TransactionWidget(
               name: receiverName,
               status: status,
-              price: amountSent);
+              price: amountSent,
+              dateSent: dateSent);
           testWidgets.add(testWidget);
         }).toList();
         //print(test);
@@ -79,6 +83,7 @@ Widget buildContents(BuildContext context) {
                               textAlign: TextAlign.left,
                             ),
                             InkWell(
+                              onTap: () {},
                               child: Icon(
                                 Icons.search,
                                 color: Color(0xff0080B1),

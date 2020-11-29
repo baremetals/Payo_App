@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:payo/shared/loading.dart';
 import 'package:payo/widgets/button.dart';
 import 'package:payo/services/auth.dart';
 
@@ -71,7 +70,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     print(RegisterScreen.routeName);
     print(appBar.preferredSize.height);
 
-    return loading ? Loading() : Scaffold(
+    return loading ? CircularProgressIndicator() : Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,

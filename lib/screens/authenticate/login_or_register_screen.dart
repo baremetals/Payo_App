@@ -32,13 +32,19 @@ class LoginOrRegisterScreen extends StatelessWidget {
                   CustomButton(
                     label: 'Log in',
                     function: () {
-                      Navigator.of(context).pushNamed(LoginScreen.routeName);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     },
                   ),
                   CustomButton(
                     label: 'Sign up',
                     function: () {
-                      Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterScreen()),
+                      );
                     },
                   ),
                 ],

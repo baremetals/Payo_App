@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:payo/models/transfers.dart';
 import 'package:payo/services/database.dart';
@@ -7,8 +8,9 @@ class TransactionWidget extends StatelessWidget {
   final String name;
   final String status;
   final int price;
+  dynamic dateSent;
 
-  TransactionWidget({this.status, this.price, this.name});
+  TransactionWidget({this.status, this.price, this.name, this.dateSent});
   @override
   Widget build(BuildContext context) {
         return Column(
@@ -56,17 +58,41 @@ class TransactionWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text(
-                        '${price.ceil()} GBP',
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Display',
-                          fontSize: 14,
-                          color: const Color(0xff0b6182),
-                          fontWeight: FontWeight.w700,
-                          height: 1.4285714285714286,
-                        ),
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.clip,
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+
+                            //TODO : overflow
+                            child: Text(
+                              '${price.ceil()} GBP',
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontSize: 14,
+                                color: const Color(0xff0b6182),
+                                fontWeight: FontWeight.w700,
+                                height: 1.4285714285714286,
+                              ),
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                          Text(
+                            '$dateSent',
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 10,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              height: 1.4285714285714286,
+                            ),
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -24,8 +24,10 @@ class SettingsScreen extends StatelessWidget {
       await _auth.signOut();
     }
     //Navigator.of(context).pop();
-    Navigator.of(context)
-        .pushNamed(LoginOrRegisterScreen.routeName);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginOrRegisterScreen()),
+    );
   }
 
   @override
@@ -35,8 +37,8 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: InkWell(
-            onTap: () async{
-              await _auth.signOut();
+            onTap: () {
+              confirmSignOut(context);
             },
             child: Icon(
               Icons.clear,
@@ -67,8 +69,8 @@ class SettingsScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             SettingWidget(
-              title: 'Change phone number',
-              subtitle: '+213 5434 560604 (Verified)',
+              title: 'Change Password',
+              subtitle: '',
             ),
             SizedBox(height: 20),
             SecondSettingWidget(

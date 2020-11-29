@@ -7,7 +7,6 @@ import 'package:payo/screens/settings_screen.dart';
 import 'package:payo/screens/transfer/Transfer_money_screen.dart';
 import 'package:payo/services/auth.dart';
 import 'package:payo/services/database.dart';
-import 'package:payo/shared/loading.dart';
 import 'package:payo/widgets/platform_alert.dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:payo/widgets/badge.dart.dart';
@@ -280,10 +279,12 @@ class HomeScreen extends StatelessWidget {
                                 final receiverName = transfer.receiverName;
                                 final status = transfer.status;
                                 final amountSent = transfer.amountSent;
+                                final dateSent = transfer.date.toDate().toString().replaceAll('-', '/').split(' ').elementAt(0);
                                 final testWidget = TransactionWidget(
                                     name: receiverName,
                                     status: status,
-                                    price: amountSent);
+                                    price: amountSent,
+                                    dateSent: dateSent);
                                 testWidgets.add(testWidget);
                                 print(testWidget);
                               }).toList();
@@ -302,7 +303,7 @@ class HomeScreen extends StatelessWidget {
             );
             // }).toList();
           } else {
-            return Loading();
+            return CircularProgressIndicator();
           }
         });
   }

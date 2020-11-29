@@ -98,6 +98,37 @@ class Auth implements AuthBase {
     }
   }
 
+  Future sendPasswordResetEmail(String email) async{
+
+    return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  Future UpdateUserPassword(String password) async {
+
+
+  }
+
+
+  Future<bool> validatePassword(String password) async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+
+    var authCredentials = EmailAuthProvider.getCredential(
+        email: firebaseUser.email, password: password);
+    try {
+      var authResult = await firebaseUser
+          .reauthenticateWithCredential(authCredentials);
+      return authResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<void> updatePassword(String password) async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+    firebaseUser.updatePassword(password);
+  }
+
 
 // sign out'
   @override
