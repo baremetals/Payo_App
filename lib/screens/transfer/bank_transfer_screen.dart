@@ -49,24 +49,24 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
   // _TransferScreenState({@required this.transfers});
 
   _getUser() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    User user = FirebaseAuth.instance.currentUser;
     return user;
   }
 
   final _formKey = GlobalKey<FormState>();
 
-  void _modalBottomSheetMenu() {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(30.0),
-          topRight: const Radius.circular(30.0),
-        ),
-      ),
-      builder: (context) => CountrySelection(),
-    );
-  }
+  // void _modalBottomSheetMenu() {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: const Radius.circular(30.0),
+  //         topRight: const Radius.circular(30.0),
+  //       ),
+  //     ),
+  //     builder: (context) => CountrySelection(),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -936,7 +936,7 @@ class _BankTransferScreenState extends State<BankTransferScreen> {
 
   Future<void> _createTransfer(BuildContext context) async {
     if (_validateAndSaveForm()) {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      User user = FirebaseAuth.instance.currentUser;
       await FirestoreDatabase(uid: user.uid).bankTransfer(
           receiverNameController.text,
           phoneNumber,

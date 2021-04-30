@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:payo/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,8 @@ import 'package:payo/landing_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await DotEnv().load('.env');
   runApp(MyApp());
 }

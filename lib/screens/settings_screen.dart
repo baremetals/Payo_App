@@ -4,7 +4,7 @@ import 'package:payo/services/auth.dart';
 import 'package:payo/widgets/platform_alert.dialog.dart';
 import 'package:payo/widgets/setting_widget_2.dart';
 import 'package:payo/widgets/settings_widget.dart';
-import 'authenticate/profile_info.dart';
+//import 'authenticate/profile_info.dart';
 import 'authenticate/login_or_register_screen.dart';
 
 

@@ -41,7 +41,7 @@ class _CashTransferScreenState extends State<CashTransferScreen> {
   // _TransferScreenState({@required this.transfers});
 
   _getUser() async {
-    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    User user = FirebaseAuth.instance.currentUser;
     return user;
   }
 
@@ -905,7 +905,7 @@ class _CashTransferScreenState extends State<CashTransferScreen> {
 
   Future<void> _newTransfer(BuildContext context) async {
     if (_validateAndSaveForm()) {
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      User user = FirebaseAuth.instance.currentUser;
       await FirestoreDatabase(uid: user.uid).createTransfer(
           _receiverNameController.text,
           _phoneNumber,

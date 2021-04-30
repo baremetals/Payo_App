@@ -1,3 +1,6 @@
+//import 'dart:io';
+//import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,11 +16,15 @@ import 'package:payo/widgets/badge.dart.dart';
 import 'package:payo/widgets/button.dart';
 import 'package:payo/widgets/transaction_widget.dart';
 
+import 'message_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   static const routeName = 'home-screen';
   HomeScreen({Key key, @required this.database}) : super(key: key);
   final DatabaseService database;
   final Auth _auth = Auth();
+
+  //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   //final database = Provider.of<DatabaseService>(context);
 
@@ -148,7 +155,12 @@ class HomeScreen extends StatelessWidget {
                 ),
                 actions: [
                   InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MessageScreen()),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 30),
                         child: CustomBadge(
@@ -209,9 +221,9 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       DataWidget(
-                          //time: '',
-                          //date: 2:30,
-                          //amountSent: 200,
+                          // time: '',
+                          // date: 2:30,
+                          // amountSent: 200,
                           ),
                       SizedBox(
                         height: 29,
@@ -273,23 +285,25 @@ class HomeScreen extends StatelessWidget {
                           stream: database.transferStream(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
+
                               final transfer = snapshot.data;
                               List<TransactionWidget> testWidgets = [];
                               final made = transfer.map((transfer) {
                                 final receiverName = transfer.receiverName;
                                 final status = transfer.status;
                                 final amountSent = transfer.amountSent;
-                                final dateSent = transfer.date.toDate().toString().replaceAll('-', '/').split(' ').elementAt(0);
+                                final dateSent = transfer.date;
                                 final testWidget = TransactionWidget(
                                     name: receiverName,
                                     status: status,
                                     price: amountSent,
                                     dateSent: dateSent);
                                 testWidgets.add(testWidget);
-                                print(testWidget);
+                                //print(testWidget);
                               }).toList();
                               return SafeArea(
                                 child: Column(
+                                  //children: testWidgets ?? [],
                                   children: testWidgets,
                                 ),
                               );
@@ -307,6 +321,34 @@ class HomeScreen extends StatelessWidget {
           }
         });
   }
+
+
+
+  // pushAlerts() {
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  //
+  // Future initialize() async {
+  // if (Platform.isIOS) {
+  // _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings());
+  // }
+  //
+  // _firebaseMessaging.configure(
+  // onMessage: (Map<String, dynamic> message) async {
+  // print('onMessage: $message');
+  // },
+  //
+  // onLaunch: (Map<String, dynamic> message) async {
+  // print('onLaunch: $message');
+  // },
+  //
+  // onResume: (Map<String, dynamic> message) async {
+  // print('onResume: $message');
+  // }
+  // );
+  // }
+  //
+  //
+  // }
 }
 
 class SpWidget extends StatelessWidget {

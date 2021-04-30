@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:payo/models/user.dart';
 import 'package:payo/screens/home_screen.dart';
-import 'package:payo/services/auth.dart';
+//mport 'package:payo/services/auth.dart';
 import 'package:payo/services/database.dart';
 import 'package:payo/widgets/button.dart';
 import 'package:payo/widgets/platform_alert.dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../settings_screen.dart';
-import '../tab_screen.dart';
+//import '../tab_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = 'profile_info-screen';
@@ -21,10 +22,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final Auth _auth = Auth();
+  //final Auth _auth = Auth();
 
   final CollectionReference userCollection =
-      Firestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
 
   _ProfileScreenState({@required this.uid});
 

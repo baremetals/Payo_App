@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:payo/screens/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:payo/services/auth.dart';
@@ -11,7 +12,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
     return StreamBuilder<User>(
-        stream: auth.onAuthStateChanged,
+        stream: auth.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             User user = snapshot.data;

@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:payo/models/transfers.dart';
 import 'package:payo/services/database.dart';
 import 'package:payo/widgets/transaction_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
   static const routeName = 'transactions_history_screen';
@@ -21,6 +22,7 @@ class TransactionHistoryScreen extends StatelessWidget {
 }
 
 Widget buildContents(BuildContext context) {
+
   final database = Provider.of<DatabaseService>(context);
   return StreamBuilder<List<Transfer>>(
     stream: database.transferStream(),
@@ -29,14 +31,15 @@ Widget buildContents(BuildContext context) {
         final transfer = snapshot.data;
         //print(transfer);
         List<TransactionWidget> testWidgets = [];
-        // final dateTime =
         // transfer.map((transfer) => (transfer.date).toDate()).toString();
         final test =
         transfer.map((transfer) {
           final receiverName = transfer.receiverName;
           final status = transfer.status;
           final amountSent = transfer.amountSent;
-          final dateSent = transfer.date.toDate().toString().split(' ').elementAt(0);
+          final dateSent = transfer.date.toDate();
+          format(dateSent);
+          print(dateSent);
           final testWidget = TransactionWidget(
               name: receiverName,
               status: status,
@@ -44,7 +47,7 @@ Widget buildContents(BuildContext context) {
               dateSent: dateSent);
           testWidgets.add(testWidget);
         }).toList();
-        //print(test);
+        print(test);
         return SafeArea(
           child: Container(
             height: MediaQuery.of(context).size.height,

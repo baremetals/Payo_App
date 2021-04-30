@@ -102,7 +102,7 @@ class _TabScreenState extends State<TabScreen> {
               'assets/svg_icons/invite.svg',
               color: Colors.white,
             ),
-            title: // Adobe XD layer: 'Dashboard' (text)
+            title: //Adobe XD layer: 'Dashboard' (text)
             Text(
               'Send',
               style: TextStyle(
@@ -138,7 +138,7 @@ class _TabScreenState extends State<TabScreen> {
               'assets/svg_icons/account.svg',
               color: currentIndex == 4 ? Color(0xff1baecb) : Color(0xff8c8c94),
             ),
-            title: // Adobe XD layer: 'Dashboard' (text)
+            title: //Adobe XD layer: 'Dashboard' (text)
             Text(
               'Account',
               style: TextStyle(

@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     print(LoginScreen.routeName);
-    return loading ? CircularProgressIndicator() : Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 function: () async {
                   if (_formKey.currentState.validate()) {
                     setState(() => loading = true);
-                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                    dynamic result = await _auth.signInWithEmailAndPassword(email.trim(), password);
                     if(result == null) {
                       PlatformAlertDialog(
                         title: 'sign in failed',

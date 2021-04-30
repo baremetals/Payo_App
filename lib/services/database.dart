@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:payo/models/notifications.dart';
 import 'package:payo/models/transfers.dart';
 import 'package:payo/models/user.dart';
 import 'package:meta/meta.dart';
 import 'package:payo/services/api_path.dart';
 import 'package:payo/services/firestore_service.dart';
-import 'auth.dart';
 
 abstract class DatabaseService {
   Future<void> setTransfer(Transfer transfer);
   Stream<List<Transfer>> transferStream();
   Stream<Transfer> transfersStream({@required String transferId});
+  Future<Message> getNotifications();
 }
 
 class FirestoreDatabase implements DatabaseService {
@@ -19,17 +20,21 @@ class FirestoreDatabase implements DatabaseService {
 
   final _service = FirestoreService.instance;
   final CollectionReference userCollection =
-      Firestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
   final CollectionReference transferCollection =
-      Firestore.instance.collection('transfers');
+      FirebaseFirestore.instance.collection('transfers');
+  final CollectionReference notificationCollection =
+      FirebaseFirestore.instance.collection('notifications');
 
-  Future<void> createUser(firstName, lastName, mobile, email) async {
+  Future<void> createUser(
+      firstName, lastName, mobile, email, deviceToken) async {
     try {
-      await userCollection.document(uid).setData({
+      await userCollection.doc(uid).set({
         'firstName': firstName,
         'lastName': lastName,
         'mobile': mobile,
-        'email': email
+        'email': email,
+        'deviceToken': deviceToken
       });
     } catch (e) {
       return e.message;
@@ -49,7 +54,11 @@ class FirestoreDatabase implements DatabaseService {
       status,
       date) async {
     try {
-      await Firestore.instance.collection("users").document(uid).collection("transfers").add({
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .collection("transfers")
+          .add({
         'receiverName': receiverName,
         'phoneNumber': phoneNumber,
         'sendingCurrency': sendingCurrency,
@@ -84,13 +93,17 @@ class FirestoreDatabase implements DatabaseService {
       status,
       date) async {
     try {
-      await Firestore.instance.collection("users").document(uid).collection("transfers").add({
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .collection("transfers")
+          .add({
         'accountDetails': ({
           'accountNumber': accountNumber,
           'sortCode': sortCode,
           'bic': bic,
           'iban': iban,
-      }),
+        }),
         'receiverName': receiverName,
         'phoneNumber': phoneNumber,
         'sendingCurrency': sendingCurrency,
@@ -110,7 +123,7 @@ class FirestoreDatabase implements DatabaseService {
 
   Future<void> updateUserData(String firstName, String lastName, String email,
       String mobile, String profession) async {
-    return await userCollection.document(uid).setData({
+    return await userCollection.doc(uid).set({
       firstName: firstName,
       lastName: lastName,
       'email': email,
@@ -121,7 +134,7 @@ class FirestoreDatabase implements DatabaseService {
 
   Future<void> updateUserDetails(
       String firstName, String lastName, String mobile, String email) async {
-    return await userCollection.document(uid).updateData({
+    return await userCollection.doc(uid).update({
       'firstName': firstName,
       'lastName': lastName,
       'mobile': mobile,
@@ -139,14 +152,22 @@ class FirestoreDatabase implements DatabaseService {
         path: APIPath.transfers(uid),
         builder: (data, documentId) => Transfer.fromMap(data, documentId),
       );
-
+  Future<Message> getNotifications() async {
+    QuerySnapshot snapshot = await userCollection
+        .doc()
+        .collection('notifications')
+        .orderBy('timestamp', descending: true)
+        .limit(50)
+        .get();
+    return null;
+  }
   // Stream<List<Transfer>> transferStream() {
   //   final path = APIPath.transfers(uid);
-  //   final reference = Firestore.instance.collection(path);
+  //   final reference = FirebaseFirestore.instance.collection(path);
   //   final snapshots = reference.snapshots();
-  //   return snapshots.map((snapshot) => snapshot.documents
+  //   return snapshots.map((snapshot) => snapshot.docs
   //       .map(
-  //         (snapshot) => Transfer.fromMap(snapshot.data, snapshot.documentID),
+  //         (snapshot) => Transfer.fromMap(snapshot.data(), snapshot.id),
   //       )
   //       .toList());
   // }
@@ -160,15 +181,15 @@ class FirestoreDatabase implements DatabaseService {
 
   // User list from snapshot
   // ignore: non_constant_identifier_names
-  List<User> _UserListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
+  List<UserData> _UserListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
       //print(doc.data);
-      return User(
+      return UserData(
           uid: uid,
-          firstName: doc.data['firstName'] ?? '',
-          lastName: doc.data['lastName'] ?? '',
-          email: doc.data['email'] ?? '',
-          mobile: doc.data['mobile'] ?? '');
+          firstName: doc.data()['firstName'] ?? '',
+          lastName: doc.data()['lastName'] ?? '',
+          email: doc.data()['email'] ?? '',
+          mobile: doc.data()['mobile'] ?? '');
     }).toList();
   }
 
@@ -176,10 +197,10 @@ class FirestoreDatabase implements DatabaseService {
   UserData _userFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
       uid: uid,
-      firstName: snapshot.data['firstName'],
-      lastName: snapshot.data['lastName'],
-      email: snapshot.data['email'],
-      mobile: snapshot.data['mobile'],
+      firstName: snapshot.data()['firstName'],
+      lastName: snapshot.data()['lastName'],
+      email: snapshot.data()['email'],
+      mobile: snapshot.data()['mobile'],
     );
   }
 
@@ -198,13 +219,13 @@ class FirestoreDatabase implements DatabaseService {
   // }
 
   // get users stream
-  Stream<List<User>> get users {
+  Stream<List<UserData>> get users {
     return userCollection.snapshots().map(_UserListFromSnapshot);
   }
 
   // get user doc stream
   Stream<UserData> get user {
-    return userCollection.document(uid).snapshots().map(_userFromSnapshot);
+    return userCollection.doc(uid).snapshots().map(_userFromSnapshot);
   }
 
   // Stream<Transfer> get transfers {

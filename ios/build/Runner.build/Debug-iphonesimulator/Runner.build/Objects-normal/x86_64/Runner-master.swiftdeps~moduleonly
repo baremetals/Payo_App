@@ -1,0 +1,5 @@
+version: "Apple Swift version 5.3.1 (swiftlang-1200.0.41 clang-1200.0.32.8)"
+options: "473f5db9c1000c3ba61f570c408165ed"
+build_time: [1606925174, 626463000]
+inputs:
+  "/Users/danielasante/Desktop/PROJECTS/samuel_payo-master/ios/Runner/AppDelegate.swift": !dirty [1606675870, 387424865]
